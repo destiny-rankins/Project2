@@ -46,6 +46,14 @@ trach_df[,c(2:4, 9:15, 17, 21, 23, 27, 29)] <- lapply(trach_df[,c(2:4, 9:15, 17,
 
 ### Abstract
 
+-   **Background:** Bronchopulmonary Dysplasia is a form of chronic disease that most often affect those born prematurely and need oxygen therapy. Some forms of treatment options include non-invasive respiratory support like cardiac medications and invasive respiratory where a ventilator is insert via a tracheostomy. The goal of this study is to develop a regression model to predict the outcome of tracheostomy to guide the indication criteria and timing of tracheostomy placement.
+
+-   **Methods:** This study utilizes data from the BPD Collaborative Registry, a multi-center consortium of interdisciplinary BPD programs located in the United States and Sweden formed to address gaps in evidence and promote research to enhance the care of children with severe forms of BPD. Standard demographic and clinical data are collected at four time points: birth, 36 weeks PMA, 44 weeks PMA and discharge information.
+
+-   **Results:** A total of 996 patients were included in the final analysis of the data set. The best model was the logistic regression model. This model achieved a BrierScore of 0.065 and AUC O.933 (compared to Brier Score of 0.069 and AUC of 0.932 for the lasso model and Brier Score of 0.075 and AUC of 0.922 for the ridge model).
+
+-   **Conclusions:** The fitted regression models allow for predicting the potiential need for a tracheostomy on infants given predictor variables. The findings are intended provide insight into the complex clinical decision-making process.
+
 ### Introduction
 
 An estimated 10000 to 15000 newborns develop Bronchopulmonary Dysplasia (BPD) in the United States every year \[1\]. BPD is a form of chronic lung disease that affects newborns, most often those who are born prematurely and need oxygen therapy \[1\]. BDP is the result of a newborn's lungs not developing normally while the baby is growing in womb, or not developing fully if the baby was born premature \[2\]. The lungs develop around 30-40 weeks. While the condition is a consequence of being born extremely premature, the severity of the disease varies from infant to infant. There is no particular cure for Bronchiopulmonary Dysplasia however, there are various treatment options to help support infant's lungs, allowing for them to heal and grow \[1\]. Some of these treatment options include diuretics, bronchiodilators, corticosteroids, viral immunization, and cardiac medications.
@@ -625,6 +633,7 @@ kable(brier, caption = "Brier Score Measures", align = "l",digits = 3)
 ```
 
 ### Discussion
+
 The results of this regression analysis provide insights into the prediction of tracheostomy among infants diagnosed with severe bronchopulmonary dysplasia (BPD). Given the vulnerability of the patient population and the risk associated with a tracheostomy, it is important to develop a model that can accurately predict the potential need for invasive ventilation support. After fitting the logistic, lasso, and ridge models on the overall average regression coefficients from the imputed data sets, the logistic model appears to perform the best. We were able to assess the reliability and accuracy of these models using discrimination techniques and calibration methods. The current study has some limitations. There were very few observed outcomes for tracheostomy and death. Furthermore, we did not focus on the death outcome in this study because it is uncertain that that cause of death is with complications from the tracheostomy for every infant. Significant missingness for predictors of interest was another limitation in the study. The multiple imputation method was used to impute missing variables. Some of the regression model functions included cross-validation and we did implement calibration on the predicted probabilities however, it is helpful to have a independent test set to evaluate the final model's performance on unseen data. In this study, we did not split the data into a training set and test set for validation. Furthermore, we did not conduct external validation on another data set to evaluate the generalizability of the model or the model's ability to be applied outside the clinical setting.
 
 offering valuable insights into the complex clinical decision-making process for this vulnerable patient population.
