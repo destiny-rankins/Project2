@@ -60,7 +60,9 @@ An estimated 10000 to 15000 newborns develop Bronchopulmonary Dysplasia (BPD) in
 
 There are varying severity levels used to classify infants with BPD; mild (grade 1), moderate (grade 2), severe (grade 3), and very severe (grade 4). Infants with Grade 2 BPD are defined as those with the need for non-invasive positive pressure at 36 weeks post-menstrual age (PMA) \[3\]. The most severely affected infants (grade 3 BPD) are dependent on a ventilator at 36 week PMA moreover, they have a need for ongoing invasive positive pressure ventilation (IPPV) \[4\]. Infants with severe BPD must be discharged from the hospital on a ventilator. This requires a tracheostomy, a procedure to help air and oxygen reach the lungs by creating an opening into the trachea (windpipe) from outside the neck \[5\]. The surgical opening in the neck allows them to be connected to a ventilator. Up to 12% of infants with severe or grade 3 BPD require a trachesotomy. Some potential benefits of performing tracheostomy include providing a stable airway, improving growth, promoting age-appropriate interactions, and improving participation in developmental care.
 
-#### Exploratory Data Analysis
+There are various risks associated with a tracheostomy including; increased rates of infection in the skin, lungs, or trachea, accidental removal of the tracheostomy tube, tracheal stenosis where the narrowing of the trachea hinders normal breathing. In addition to the risks associated with a tracheostomy, there are can also be challenges for families to cope with and care for infants with tracheostomies. There are potential finanical strains, emotional stress and anxiety, disruptions to daily life, and time demands families may face. Therefore, an accurate predictive model is needed to help clinicians predict the eventual need for tracheostomy in infants with severe BPD. Three regression models were developed and evaluated for performnace capabilities, accuracy, and reliability.
+
+### Methods
 
 There are a total of thirty categorical and continuous variables in the data set. There are categorical variables in the data set for: the medical center, the mother's race, the mother's ethnicity, the birthing delivery method (vaginal delivery or Cesarean section), prenatal corticosteriods, completed prenatal steroids, maternal chorioamnionitis, infant gender, whether infant was small for gestational age, if the infant received surfactant at any point in the first 72 hours, level of ventilation support at 36 and 44 weeks (0 = no respiratory support or supplemental oxygen, 1 = non-invasive positive pressure, and 2 = invasive positive pressure), if medication for pulmonary hypertension was received at 36 and 44 weeks, if the infant received a tracheostomoy at discharge, and death before discharge. There are continuous variables in the data set for: the birth weight in grams, the obstetrical gestational age, the birth length in centimeters, the birth head circumference in centimeters, the infant weight at 36 and 44 weeks, the fraction of inspired oxygen at 36 and 44 weeks, the peak inspiration pressure (cmH20) at 36 and 44 weeks, positive and exploratory pressure (cmH20) at 36 and 44 weeks, and hospital discharge gestational age
 
@@ -273,26 +275,6 @@ box_plot <- function(data, x, y, title) {
     ggtitle(title)
 }
 
-# Boxplots for Continuous Independent Respiratory Support Variables at 36 Weeks
-bw36_trach <- box_plot(newdata, Tracheostomy, weight_today.36, "Weight at 36 Weeks")
-inspoxy36_trach <- box_plot(newdata, Tracheostomy, inspired_oxygen.36, "Fraction of Inspired Oxygen at 36 weeks")
-peak36_trach <- box_plot(newdata, Tracheostomy, p_delta.36, "Peak Inspiratory Pressure (cmH2O) at 36 weeks")
-posexp36_trach <- box_plot(newdata, Tracheostomy, peep_cm_h2o_modified.36, "Positive and exploratory pressure (cm H2O) at 36 weeks")
-
-plot1 <- ggarrange(bw36_trach, inspoxy36_trach, peak36_trach, posexp36_trach,
-                   ncol = 4, nrow = 1)
-annotate_figure(plot1, top = text_grob("Boxplots for Continuous Independent Respiratory Support Variables", color = "black", face = "bold", size = 14))
-
-# Boxplots for Continuous Independent Respiratory Support Variables at 44 Weeks
-bw44_trach <- box_plot(newdata2, Tracheostomy, weight_today.44, "Weight at 44 Weeks")
-inspoxy44_trach <- box_plot(newdata2, Tracheostomy, inspired_oxygen.44, "Fraction of Inspired Oxygen at 44 weeks")
-peak44_trach <- box_plot(newdata2, Tracheostomy, p_delta.44, "Peak Inspiratory Pressure (cmH2O) at 44 weeks")
-posexp44_trach <- box_plot(newdata2, Tracheostomy, peep_cm_h2o_modified.44, "Positive and exploratory pressure (cm H2O) at 44 weeks")
-plot2 <- ggarrange(bw44_trach, inspoxy44_trach, peak44_trach, posexp44_trach,
-                   ncol = 4, nrow = 1)
-annotate_figure(plot2, top = text_grob("Boxplots for Continuous Independent Respiratory Support Variables", color = "black", face = "bold", size = 14))
-
-
 # Boxplots for Continuous Independent Birth Variables
 aa <- box_plot(newdata3, Tracheostomy, bw, "Distribution for Birth Weight")
 bb <- box_plot(newdata3, Tracheostomy, birth_hc, "Distribution for Birth Head Circumference")
@@ -303,8 +285,6 @@ plot3 <- ggarrange(aa, bb, cc, dd, ee, ncol = 3, nrow = 2)
 annotate_figure(plot3, top = text_grob("Boxplots for Continuous Independent Birth Variables", color = "black", face = "bold", size = 14))
 
 ```
-
-### Methods
 
 #### Model Development
 
@@ -457,11 +437,23 @@ trach_df_long$ridge_score <- x_vars %*% avg_coefs_ridge
 mod_ridge <- glm(Trach~ ridge_score, data = trach_df_long, family = "binomial")
 predict_probs_ridge <- predict(mod_ridge, type="response")
 
-ggplot() + 
+# plot predicted probabilities from the regression models
+log_prob_plot <- ggplot() + 
+  geom_histogram(aes(x=predict_probs_logistic, fill=as.factor(mod_logistic$y)),
+                bins=30) + scale_fill_discrete(name="Tracheostomy") + 
+  labs(x="Predicted Probabilities", y="Count", title ="Logistic Regression Model     Predicted Probabilities")
+
+lasso_prob_plot <-ggplot() + 
+  geom_histogram(aes(x=predict_probs_lasso, fill=as.factor(mod_lasso$y)),
+                bins=30) + scale_fill_discrete(name="Tracheostomy") + 
+  labs(x="Predicted Probabilities", y="Count", title ="Lasso Regression Model         Predicted Probabilities")
+
+ridge_prob_plot <-ggplot() + 
   geom_histogram(aes(x=predict_probs_ridge, fill=as.factor(mod_ridge$y)),
-                bins=30) +
-  scale_fill_discrete(name="Tracheostomy") + 
-  labs(x="Predicted Probabilities", y="Count")
+                bins=30) + scale_fill_discrete(name="Tracheostomy") + 
+  labs(x="Predicted Probabilities", y="Count", title ="Ridge Regression Model      Predicted Probabilities")
+grid.arrange(log_prob_plot, lasso_prob_plot, ridge_prob_plot, nrow = 1, ncol = 3)
+
 ```
 
 #### Model Performance
@@ -634,7 +626,7 @@ kable(brier, caption = "Brier Score Measures", align = "l",digits = 3)
 
 ### Discussion
 
-The results of this regression analysis provide insights into the prediction of tracheostomy among infants diagnosed with severe bronchopulmonary dysplasia (BPD). Given the vulnerability of the patient population and the risk associated with a tracheostomy, it is important to develop a model that can accurately predict the potential need for invasive ventilation support. After fitting the logistic, lasso, and ridge models on the overall average regression coefficients from the imputed data sets, the logistic model appears to perform the best. We were able to assess the reliability and accuracy of these models using discrimination techniques and calibration methods. The current study has some limitations. There were very few observed outcomes for tracheostomy and death. Furthermore, we did not focus on the death outcome in this study because it is uncertain that that cause of death is with complications from the tracheostomy for every infant. Significant missingness for predictors of interest was another limitation in the study. The multiple imputation method was used to impute missing variables. Some of the regression model functions included cross-validation and we did implement calibration on the predicted probabilities however, it is helpful to have a independent test set to evaluate the final model's performance on unseen data. In this study, we did not split the data into a training set and test set for validation. Furthermore, we did not conduct external validation on another data set to evaluate the generalizability of the model or the model's ability to be applied outside the clinical setting.
+The results of this regression analysis provide insights into the prediction of tracheostomy among infants diagnosed with severe bronchopulmonary dysplasia (BPD). Given the vulnerability of the patient population and the risk associated with a tracheostomy, it is important to develop a model that can accurately predict the potential need for invasive ventilation support. After fitting the logistic, lasso, and ridge models on the overall average regression coefficients from the imputed data sets, the logistic model appears to perform the best. We were able to assess the reliability and accuracy of these models using discrimination techniques and calibration methods. The current study has some limitations. In the data, there were very few observed outcomes for tracheostomy and death and we do not know when the tracheostomy was done. In addition, we did not focus on the death outcome in this study because it is uncertain that that cause of death is with complications from the tracheostomy for every infant. Significant missingness for predictors of interest was another limitation in the study. The multiple imputation method was used to impute missing variables. Some of the regression model functions included cross-validation and we did implement calibration on the predicted probabilities however, it is helpful to have a independent test set to evaluate the final model's performance on unseen data. In this study, we did not split the data into a training set and test set for validation. Furthermore, we did not conduct external validation on another data set to evaluate the generalizability of the model or the model's ability to be applied outside the clinical setting.
 
 offering valuable insights into the complex clinical decision-making process for this vulnerable patient population.
 
