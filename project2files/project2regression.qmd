@@ -44,33 +44,33 @@ trach_df <- project2[!duplicate_id, ]
 trach_df[,c(2:4, 9:15, 17, 21, 23, 27, 29)] <- lapply(trach_df[,c(2:4, 9:15, 17, 21, 23, 27, 29)], factor)
 ```
 
-### Abstract
+## Abstract
 
--   **Background:** Bronchopulmonary Dysplasia is a form of chronic disease that most often affect those born prematurely and need oxygen therapy. Some forms of treatment options include non-invasive respiratory support like cardiac medications and invasive respiratory where a ventilator is insert via a tracheostomy. The goal of this study is to develop a regression model to predict the outcome of tracheostomy to guide the indication criteria and timing of tracheostomy placement.
+-   **Background:** Bronchopulmonary dysplasia (BPD) is a form of chronic disease that most often affect those born prematurely and need oxygen therapy. Some treatment options include non-invasive respiratory support like cardiac medications and invasive respiratory support where a ventilator is inserted via a tracheostomy. The goal of this study is to develop a regression model to predict the outcome of tracheostomy to guide the indication criteria and timing of tracheostomy placement.
 
--   **Methods:** This study utilizes data from the BPD Collaborative Registry, a multi-center consortium of interdisciplinary BPD programs located in the United States and Sweden formed to address gaps in evidence and promote research to enhance the care of children with severe forms of BPD. Standard demographic and clinical data are collected at four time points: birth, 36 weeks PMA, 44 weeks PMA and discharge information.
+-   **Methods:** This study utilizes data from the BPD Collaborative Registry, a multi-center consortium of interdisciplinary BPD programs located in the United States and Sweden formed to address gaps in evidence and promote research to enhance the care of children with severe forms of BPD. Standard demographic and clinical data are collected at four time points: birth, 36 weeks post-menstrual age (PMA), 44 weeks PMA and discharge information.
 
--   **Results:** A total of 996 patients were included in the final analysis of the data set. The best model was the logistic regression model. This model achieved a BrierScore of 0.065 and AUC O.933 (compared to Brier Score of 0.069 and AUC of 0.932 for the lasso model and Brier Score of 0.075 and AUC of 0.922 for the ridge model).
+-   **Results:** A total of 996 patients were included in the final analysis of the data set. The best model was the logistic regression model. This model achieved a Brier Score of 0.065 and AUC O.933 (compared to Brier Score of 0.069 and AUC of 0.932 for the lasso model and Brier Score of 0.075 and AUC of 0.922 for the ridge model).
 
--   **Conclusions:** The fitted regression models allow for predicting the potiential need for a tracheostomy on infants given predictor variables. The findings are intended provide insight into the complex clinical decision-making process.
+-   **Conclusions:** The fitted regression models allow for predicting the potential need for a tracheostomy on infants given predictor variables. The findings are intended provide insight into a complex clinical decision-making process.
 
-### Introduction
+## Introduction
 
-An estimated 10000 to 15000 newborns develop Bronchopulmonary Dysplasia (BPD) in the United States every year \[1\]. BPD is a form of chronic lung disease that affects newborns, most often those who are born prematurely and need oxygen therapy \[1\]. BDP is the result of a newborn's lungs not developing normally while the baby is growing in womb, or not developing fully if the baby was born premature \[2\]. The lungs develop around 30-40 weeks. While the condition is a consequence of being born extremely premature, the severity of the disease varies from infant to infant. There is no particular cure for Bronchiopulmonary Dysplasia however, there are various treatment options to help support infant's lungs, allowing for them to heal and grow \[1\]. Some of these treatment options include diuretics, bronchiodilators, corticosteroids, viral immunization, and cardiac medications.
+An estimated 10000 to 15000 newborns develop bronchopulmonary dysplasia (BPD) in the United States every year \[1\]. BPD is a form of chronic lung disease that affects newborns, most often those who are born prematurely and need oxygen therapy \[1\]. BPD is the result of a newborn's lungs not developing normally while the baby is growing in womb, or not developing fully if the baby was born premature \[2\]. The lungs develop around 30-40 weeks and while the condition is a consequence of being born extremely premature, the severity of the disease varies from infant to infant. There is no particular cure for Bronchiopulmonary dysplasia however, there are various treatment options to help support infant's lungs, allowing for them to heal and grow \[1\]. Some of these treatment options include diuretics, bronchiodilators, corticosteroids, viral immunization, and cardiac medications\[1\].
 
 There are varying severity levels used to classify infants with BPD; mild (grade 1), moderate (grade 2), severe (grade 3), and very severe (grade 4). Infants with Grade 2 BPD are defined as those with the need for non-invasive positive pressure at 36 weeks post-menstrual age (PMA) \[3\]. The most severely affected infants (grade 3 BPD) are dependent on a ventilator at 36 week PMA moreover, they have a need for ongoing invasive positive pressure ventilation (IPPV) \[4\]. Infants with severe BPD must be discharged from the hospital on a ventilator. This requires a tracheostomy, a procedure to help air and oxygen reach the lungs by creating an opening into the trachea (windpipe) from outside the neck \[5\]. The surgical opening in the neck allows them to be connected to a ventilator. Up to 12% of infants with severe or grade 3 BPD require a trachesotomy. Some potential benefits of performing tracheostomy include providing a stable airway, improving growth, promoting age-appropriate interactions, and improving participation in developmental care.
 
-There are various risks associated with a tracheostomy including; increased rates of infection in the skin, lungs, or trachea, accidental removal of the tracheostomy tube, tracheal stenosis where the narrowing of the trachea hinders normal breathing. In addition to the risks associated with a tracheostomy, there are can also be challenges for families to cope with and care for infants with tracheostomies. There are potential finanical strains, emotional stress and anxiety, disruptions to daily life, and time demands families may face. Therefore, an accurate predictive model is needed to help clinicians predict the eventual need for tracheostomy in infants with severe BPD. In this study three regression models were developed and evaluated for performance capabilities, accuracy, and reliability.
+There are various risks associated with a tracheostomy including; increased rates of infection in the skin, lungs, or trachea, accidental removal of the tracheostomy tube, and tracheal stenosis where the narrowing of the trachea hinders normal breathing. In addition to the risks associated with a tracheostomy, there are can also be challenges for families to cope with and care for infants with inserted ventilators by tracheostomy. There are potential financial strains, emotional stress and anxiety, disruptions to daily life, and time demands that families may face. Therefore, an accurate predictive model is essential to help clinicians predict the eventual need for tracheostomy in infants with severe BPD. In this study, we aimed to accurately predict the tracheostomy outcome infants by developing three regression models and evaluating their performance capabilities, accuracy, and reliability.
 
-### Methods
+## Methods
 
-#### Study Participants
+#### **Study Participants**
 
-Study participants were drawn from the BPD Collaborative Registry, a multi-center consortium of interdisciplinary BPD programs located in the United States and Sweden formed to address gaps in evidence and promote research to enhance the care of children with severe forms of BPD \[7\]. The registry includes infants whose gestational age is less than 32 weeks and who have severe bronchopulmonary dysplasia (sBPD) (defined by 2001 NHLBI criteria; specifically, FiO2 3 0.3 or positive pressure ventilation (invasive or non-invasive) at 36-weeks PMA)\[7\]. There are a total of thirty standard demographic and clinical data collected the time points birth, 36 weeks PMA , 44 weeks PMA, and discharge. The categorical variables in the data set include: the medical center, the mother's race, the mother's ethnicity, the birthing delivery method (vaginal delivery or Cesarean section), prenatal corticosteriods, completed prenatal steroids, maternal chorioamnionitis, infant gender, whether infant was small for gestational age, if the infant received surfactant at any point in the first 72 hours, level of ventilation support at 36 and 44 weeks (0 = no respiratory support or supplemental oxygen, 1 = non-invasive positive pressure, and 2 = invasive positive pressure), if medication for pulmonary hypertension was received at 36 and 44 weeks, if the infant received a tracheostomoy at discharge, and death before discharge. The continuous variables in the data set include: the birth weight in grams, the obstetrical gestational age, the birth length in centimeters, the birth head circumference in centimeters, the infant weight at 36 and 44 weeks, the fraction of inspired oxygen at 36 and 44 weeks, the peak inspiration pressure (cmH20) at 36 and 44 weeks, positive and exploratory pressure (cmH20) at 36 and 44 weeks, and hospital discharge gestational age. For this study, we queried the registry for patients with BPD and complete growth data between January 1 and July 19, 2021. At the time of analysis, 10 BPD Collaborative centers had contributed data meeting study inclusion criteria."
+Study participants were drawn from the BPD Collaborative Registry, a multi-center consortium of interdisciplinary BPD programs located in the United States and Sweden formed to address gaps in evidence and promote research to enhance the care of children with severe forms of BPD \[7\]. The registry includes infants whose gestational age is less than 32 weeks and who have severe bronchopulmonary dysplasia (sBPD) (defined by 2001 NHLBI criteria; specifically, FiO2 3 0.3 or positive pressure ventilation (invasive or non-invasive) at 36-weeks PMA)\[7\]. There were a total of thirty standard demographic and clinical variables collected for the data set that included the time points; birth, 36 weeks PMA , 44 weeks PMA, and discharge. The categorical variables in the data set include: the medical center, the mother's race, the mother's ethnicity, the birthing delivery method (vaginal delivery or Cesarean section), prenatal corticosteriods, completed prenatal steroids, maternal chorioamnionitis, infant gender, whether infant was small for gestational age, if the infant received surfactant at any point in the first 72 hours, level of ventilation support at 36 and 44 weeks (0 = no respiratory support or supplemental oxygen, 1 = non-invasive positive pressure, and 2 = invasive positive pressure), if medication for pulmonary hypertension was received at 36 and 44 weeks, if the infant received a tracheostomoy at discharge, and death before discharge. The continuous variables in the data set include: the birth weight in grams, the obstetrical gestational age, the birth length in centimeters, the birth head circumference in centimeters, the infant weight at 36 and 44 weeks, the fraction of inspired oxygen at 36 and 44 weeks, the peak inspiration pressure (cmH20) at 36 and 44 weeks, positive and exploratory pressure (cmH20) at 36 and 44 weeks, and hospital discharge gestational age. For this study, we queried the registry for patients with BPD and complete growth data between January 1 and July 19, 2021. At the time of analysis, 10 BPD Collaborative centers had contributed data meeting study inclusion criteria."
 
-#### Exploratory Data Analysis
+#### **Exploratory Data Analysis**
 
-When observing the demographic statistics from the data in Table 1, we see that most of the participants are non-Hispanic or Latino. Moreover, we see that 59% of the non-Hispanic or Latino maternal participants selected "Other" for race and 33% selected American Indian or Alaskan Native. In contrast, 65% of Hispanic maternal participants selected "Asian" for race and 32% is unknown. Since we do not know for sure if an error occurred when creating the code book where "6" is meant to specify "Other" for race or if there was a clerical data entry error in the data set where "0" is a specifier for race, these values were treated as unknown. None of the participants identified as Black or African American, Native Hawaiian or Other Pacific Islander or, White. From Table 2, we observe that there were more males (466) than females (315) that were small for gestational age. The average birth weight was higher for males (838 grams) than females (762 grams). Furthermore, the average weight for infant males for males at 36 weeks PMA and 44 weeks PMA than for females. In Table 3: Summary of Respiratory Support Variables, we observe the overall average for infants that did not receive respiratory support or supplemental oxygen increase from 12% to 47%. The overall average of number of infants that needed non-invasive positive pressure decreased from 61% to 25% for 36 weeks PMA and 44 week PMA, respectively. An average of 260 infants had invasive support for ventilation at 36 weeks PMA and an average of 157 infants had invasive support for ventilation at 44 weeks PMA. From Table 4, we see that most of the participants took prenatal steroids (87%), while we observe an 11% decrease for participants that completed taking the prenatal steroids.In this table, we also see that an average of 145 infants (15%) had a tracheostomy at discharge and an average of 54 infants (5.4%) died before discharge.
+When observing the demographic statistics from the data in Table 1, we see that most of the maternal participants are non-Hispanic or Latino. Moreover, we see that 59% of the non-Hispanic or Latino maternal participants selected "0" for race and 33% selected American Indian or Alaskan Native. In contrast, 65% of Hispanic maternal participants selected "Asian" for race and 32% is unknown. Since we do not know for sure if an error occurred when creating the code book where "6" is meant to specify "Other" for race or if there was a clerical data entry error in the data set where "0" is a specifier for race, these values were treated as unknown. None of the participants identified as Black or African American, Native Hawaiian or Other Pacific Islander or, White. From Table 2, we observe that there were more males (466) than females (315) that were small for gestational age. The average birth weight was higher for males (838 grams) than females (762 grams). Furthermore, the average weight for infant males was higher at 36 weeks PMA and 44 weeks PMA than for females. In Table 3: Summary of Respiratory Support Variables, we observe the overall average for infants that did not receive respiratory support or supplemental oxygen increase from 12% to 47%. The overall average number of infants that needed non-invasive positive pressure decreased from 61% to 25% for 36 weeks PMA and 44 week PMA, respectively. An average of 260 infants had invasive support for ventilation at 36 weeks PMA and an average of 157 infants had invasive support for ventilation at 44 weeks PMA. From Table 4, we see that most of the participants took prenatal steroids (87%), while we observe an 11% decrease for participants that completed taking the prenatal steroids. In Table 5, we that an average of 145 infants (15%) had a tracheostomy at discharge and an average of 54 infants (5.5%) died before discharge.
 
 ```{r, warning=FALSE, message=FALSE, echo = FALSE}
 # average birth weight, average birth weight at 36 week, and average weight at 44 weeks
@@ -85,9 +85,9 @@ trach_df %>%
                   weight_today.36 = "Average Weight at 36 Weeks {g}", 
                   weight_today.44 = "Average Weight at 44 Weeks {g}")) %>%
       add_overall() %>%
-      modify_header(label ~ "**Variable**") %>%
-      modify_caption("**Table 1. Average Birth and Infants Weights**") %>%
-      modify_spanning_header(c("stat_1", "stat_2") ~ "**Gender**") %>%
+      modify_header(label ~ "Variable") %>%
+      modify_caption("Average Birth and Infants Weights") %>%
+      modify_spanning_header(c("stat_1", "stat_2") ~ "Gender") %>%
       bold_labels()%>%
     tbl_butcher()
 
@@ -113,8 +113,8 @@ trach_df %>%
     label = list(mother_race = "Race of Mother")) %>% 
   add_overall() %>%
   modify_header(label ~ " ") %>%
-  modify_caption("**Table 2. Maternal Demographics**") %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Ethnicity of Mother**") %>%
+  modify_caption("Maternal Demographics") %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "Ethnicity of Mother") %>%
   bold_labels() %>%
   tbl_butcher()
 
@@ -133,14 +133,33 @@ trach_df %>%
                  Death = "Average Death")) %>% 
   add_overall() %>%
   modify_header(label ~ " ") %>%
-  modify_caption("**Table 4. Summary of Steroid Status and Chorioamnionitis**") %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Gender**") %>%
+  modify_caption("Summary of Steroid Status and Chorioamnionitis") %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "Gender") %>%
   bold_labels()%>%
   tbl_butcher()
 
 # average tracheostomy at discharge and death before discharge
 trach_df %>%
-  dplyr::select(gender, ventilation_support_level.36, ventilation_support_level_modified.44,inspired_oxygen.36,inspired_oxygen.44, p_delta.36, p_delta.44, peep_cm_h2o_modified.36, peep_cm_h2o_modified.44, med_ph.36, med_ph.44) %>%
+  dplyr::select(Trach, Death, gender) %>%
+  tbl_summary(
+    by = gender,
+    type = all_continuous() ~ "continuous2",
+    statistic = all_continuous() ~ c("{median}"),
+    missing_text = "Missing",
+    label = list(Trach = "Average Tracheostomy", 
+                 Death = "Average Death")) %>% 
+  add_overall() %>%
+  modify_header(label ~ " ") %>%
+  modify_caption("Average Tracheostomy and Average Death Outcome") %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "Gender") %>%
+  bold_labels()%>%
+  tbl_butcher()
+```
+
+```{r, warning=FALSE, message=FALSE, echo = FALSE}
+# average tracheostomy at discharge and death before discharge
+trach_df %>%
+  dplyr::select(gender, ventilation_support_level.36, ventilation_support_level_modified.44, med_ph.36, med_ph.44) %>%
   tbl_summary(
     by = gender,
     type = all_continuous() ~ "continuous2",
@@ -148,24 +167,16 @@ trach_df %>%
     missing_text = "Missing",
     label = list(ventilation_support_level.36 = "Ventilation Support Level at 36 Weeks PMA",
                  ventilation_support_level_modified.44 = "Ventilation Support Level at 44 Weeks PMA",
-                 inspired_oxygen.36 = "Fraction of Inspired Oxygen at 36 Weeks PMA",
-                 inspired_oxygen.44 = "Fraction of Inspired Oxygen at 44 Weeks PMA", 
-                 p_delta.36 = "Peak Inspiratory Pressure (cmH2O) at 36 weeks PMA",
-                 p_delta.44 = "Peak Inspiratory Pressure (cmH2O) at 44 weeks PMA",
-                 peep_cm_h2o_modified.36 = "Positive and Exploratory Pressure (cm H2O) at 36 weeks",
-                 peep_cm_h2o_modified.44 ="Positive and Exploratory Pressure (cm H2O) at 36 Weeks PMA",
                  med_ph.36 = "Medication for Pulmonary Hypertension at 36 weeks",
                  med_ph.44 = "Medication for Pulmonary Hypertension at 44 weeks")) %>% 
   add_overall() %>%
   modify_header(label ~ " ") %>%
-  modify_caption("**Table 3. Summary of Respiratory Support Variables**") %>%
-  #modify_spanning_header(c("stat_1", "stat_2") ~ "**Gender**") %>%
+  modify_caption("Summary of Respiratory Support Variables") %>%
+  #modify_spanning_header(c("stat_1", "stat_2") ~ "Gender") %>%
   bold_labels()
-
-
 ```
 
-Overall, 13.8% of the data is missing. Furthermore, there are seven variables with more than 40% of missing data. It appears to be a significant amount of infant data that is missing at 44 weeks post-menstrual age. These include the variables for the fraction of inspired oxygen at 44 weeks, the peak inspiratory pressure (cm H20) needed at 44 weeks, weight at 44 weeks, the positive and exploratory pressure (cm H20) needed at 44 weeks, whether the infant received surfactant at any point in the first 72 hours, the ventilation support level at 44 weeks, and whether medication for pulmonary hypertension at 44 weeks was received. This could be the case if the invasive ventilation support was remove before 44 weeks post-mentstrual age. After grouping the missing data by the variable for medical center, it appears that a lot of the missing data at 44 weeks is from medical center 2. There is also a significant amount of missing data for the variable any_surf (did the infant receive surfactant at any point in the first 72 hours) and 46% is from medical center 2. This may be the case because practices and procedures can differ between medical centers i.e how different medical centers record data or do medical charting. Based on this assumption, the data could be considered missing not at random where the probability of missing data is systematically related to the hypothetical values that are missing\[6\].Some medical centers are referral centers, special centers, or academic tertiary centers.
+Overall, 13.8% of the data is missing. Furthermore, there are seven variables with more than 40% of missing data. From Table 6, we see a significant amount of infant data that is missing at 44 weeks post-menstrual age. These include the variables for the fraction of inspired oxygen at 44 weeks, the peak inspiratory pressure (cm H20) needed at 44 weeks, weight at 44 weeks, the positive and exploratory pressure (cm H20) needed at 44 weeks, whether the infant received surfactant at any point in the first 72 hours, the ventilation support level at 44 weeks, and whether medication for pulmonary hypertension at 44 weeks was received. This could be the case if the invasive ventilation support was remove before 44 weeks post-menstrual age. After grouping the missing data by the variable for medical center, it appears that a lot of the missing data at 44 weeks is from medical center 2. This can be observed in Table 7. There is also a significant amount of missing data for the variable any_surf, 46% is from medical center 2. This may be the case because practices and procedures can differ between medical centers i.e how different medical centers record data or do medical charting. Based on this assumption, the data could be considered missing not at random where the probability of missing data is systematically related to the hypothetical values that are missing\[6\]. Some medical centers are referral centers, specialty centers, or academic tertiary centers.
 
 ```{r, warning=FALSE, message=FALSE, echo = FALSE}
 # overall missingness
@@ -205,7 +216,7 @@ kable(miss2, caption = "Medical Center 2 Missing Variable Summary",
       align = "l",digits = 3)
 ```
 
-In Figure 1 and Figure 2, we observe the distribution for the continous independent respiratory variables at 36 and 44 weeks. The distributions for most of these variable appear to be random where we observe no apparant pattern. The distribution for the variable for fraction of inspired oxygen at 36 weeks appears to be right-skewed or positively skewed. The distribution for the variable for the weight at 44 weeks appears to be normal with a bell-shape. In Figure 2, we observe the distribution for the continuous independent birth variables. The distributions for the birth weight, birth height, and gestational age appear to be right-skewed.
+From the boxplots for continuous independent birth, we observe outliers for when looking at the distributions for birth weight, birth head circumference, birth length, and hospital discharge age by tracheostomy.
 
 ```{r, warning=FALSE, message=FALSE, echo = FALSE, include=FALSE}
 # histograms for the independent respiratory support variables at 36 weeks
@@ -280,42 +291,40 @@ box_plot <- function(data, x, y, title) {
 }
 
 # Boxplots for Continuous Independent Birth Variables
-aa <- box_plot(newdata3, Tracheostomy, bw, "Distribution for Birth Weight")
-bb <- box_plot(newdata3, Tracheostomy, birth_hc, "Distribution for Birth Head Circumference")
-cc <- box_plot(newdata3, Tracheostomy, blength, "Distribution for Birth Lenghth")
-dd <- box_plot(newdata3, Tracheostomy, ga, "Distribution for Gestational Age")
-ee <- box_plot(newdata3, Tracheostomy, hosp_dc_ga, "Distribution for Hospital Discharge Gestational Age")
+aa <- box_plot(newdata3, Tracheostomy, bw, "Birth Weight")
+bb <- box_plot(newdata3, Tracheostomy, birth_hc, "Birth Head Circumf.")
+cc <- box_plot(newdata3, Tracheostomy, blength, "Birth Length")
+dd <- box_plot(newdata3, Tracheostomy, ga, "Gestational Age")
+ee <- box_plot(newdata3, Tracheostomy, hosp_dc_ga, "Hospital Discharge Gestational Age")
 plot3 <- ggarrange(aa, bb, cc, dd, ee, ncol = 3, nrow = 2)
 annotate_figure(plot3, top = text_grob("Boxplots for Continuous Independent Birth Variables", color = "black", face = "bold", size = 14))
 
 ```
 
-#### Model Development
+#### **Model Development**
 
-Three logistic regression models were developed from twenty-six chosen categorical and continuous variables. The categorical variables were converted from character-type variables to factors, allowing for statistical analysis. For imputation, the data was to include "relevant" variables. To handle the missing data, the multiple imputation method using the mice() function was employed to generate five imputed data sets with filled missing values. Each imputed data set was stored in a list to be acessed when fitting the regression models. The logistic model was fit using the glm() function from the stats package where the model of binary outcomes with "family =""binomial" was indicated. The Lasso regression model was fit using the cv.glmnet() function from the glmnet package. Ten-fold cross-validation was implemented by setting "nfolds = 10", "foldid = folds" and, indicating model of binary outcomes with "family ="binomial"". The Ridge model followed the same model-building procedure as described in the Lasso regression. However, setting"alpha = 1", specifies the Lasso method and setting "alpha = 0" in the cv.glmnet() function indicates Ridge regression. This approach helps to identify the coefficients associated with the optimal λ for each imputed set. The average of all coefficients derived from these five imputed sets to were used to predict the outcome of a tracheostomy.
+Three logistic regression models were developed from twenty-six chosen categorical and continuous variables. The categorical variables were converted from character-type variables to factors, allowing for statistical analysis. To handle the missing data, the multiple imputation method using the mice() function was employed to generate five imputed data sets with filled missing values. Each imputed data set was stored in a list to be accessed when fitting the regression models. The logistic model was fit using the glm() function from the stats package where the model of binary outcomes with "family =""binomial" was indicated. The Lasso regression model was fit using the cv.glmnet() function from the glmnet package. Ten-fold cross-validation was implemented by setting "nfolds = 10", "foldid = folds" and, indicating model of binary outcomes with "family ="binomial"". The Ridge model followed the same model-building procedure as described in the Lasso regression. However, setting"alpha = 1", specifies the Lasso method and setting "alpha = 0" in the cv.glmnet() function indicates Ridge regression. This approach helps to identify the coefficients associated with the optimal λ for each imputed set. The average of all coefficients derived from these five imputed sets to were used to predict the outcome of a tracheostomy.
 
 ```{r, warning=FALSE, message=FALSE, echo = FALSE}
 # subset the data for imputation
-trach_subset <- trach_df %>%
-  dplyr::select(c(center, bw,ga,blength,birth_hc,del_method,prenat_ster,com_prenat_ster,
-       mat_chorio,gender,sga,any_surf,weight_today.36,ventilation_support_level.36,
-       inspired_oxygen.36,p_delta.36,peep_cm_h2o_modified.36, med_ph.36,
-       weight_today.44,ventilation_support_level_modified.44,inspired_oxygen.44,
-       p_delta.44,peep_cm_h2o_modified.44,med_ph.44,hosp_dc_ga,Trach))
+trach_subset <- trach_df %>% 
+  dplyr::select(c(center,bw,ga,blength,birth_hc,del_method,prenat_ster,
+                  com_prenat_ster,mat_chorio,gender,sga,any_surf,weight_today.36,
+                  ventilation_support_level.36,inspired_oxygen.36,p_delta.36,
+                  peep_cm_h2o_modified.36,med_ph.36,weight_today.44,
+                  ventilation_support_level_modified.44,inspired_oxygen.44,
+                  p_delta.44,peep_cm_h2o_modified.44,med_ph.44,hosp_dc_ga,Trach))
 
 # impute the data set using the mice package
 #apply(trach_subset, 2, function(x){return(sum(!is.na(x))/length(x))})
-trach_df_mice_out <- mice(trach_subset, m=5, pri = FALSE, seed=10)
+trach_df_mice_out<-mice(trach_subset,m=5,pri =FALSE,seed=10)
 
 # Store each imputed data set
-trach_impdf <- vector("list",5)
+trach_impdf<-vector("list",5)
 for (i in 1:5){
-trach_impdf[[i]] <- mice::complete(trach_df_mice_out,i)
+  trach_impdf[[i]]<-mice::complete(trach_df_mice_out,i)
 }
-
 ```
-
-#### Model Selection and Cross Validation
 
 ```{r, warning=FALSE, message=FALSE, echo = FALSE}
 logistic <- function(df) {
@@ -439,7 +448,9 @@ x_vars <- model.matrix(Trach ~ ., trach_df_long)[,-c(2,3)]
 trach_df_long$ridge_score <- x_vars %*% avg_coefs_ridge
 mod_ridge <- glm(Trach~ ridge_score, data = trach_df_long, family = "binomial")
 predict_probs_ridge <- predict(mod_ridge, type="response")
+```
 
+```{r, warning=FALSE, message=FALSE, echo = FALSE, include=FALSE}
 # plot predicted probabilities from the regression models
 log_prob_plot <- ggplot() + 
   geom_histogram(aes(x=predict_probs_logistic, fill=as.factor(mod_logistic$y)),
@@ -456,12 +467,13 @@ ridge_prob_plot <-ggplot() +
                 bins=30) + scale_fill_discrete(name="Tracheostomy") + 
   labs(x="Predicted Probabilities", y="Count", title ="Ridge Regression Model      Predicted Probabilities")
 grid.arrange(log_prob_plot, lasso_prob_plot, ridge_prob_plot, nrow = 1, ncol = 3)
-
 ```
 
-#### Model Performance and Calibration
+#### **Model Performance and Calibration**
 
-Models were evaluated using discrimination to assess the model's ability to differentiate between positive and negative outcomes. This evaluation included plotting the receiving operating characteristic curve (ROC), calculating the sensitivity, specificity, positive predicted values, negative predicted values and, overall accuracy for predicting tracheostomy placement. The models were calibrated using predicted outcome probabilities to help assess reliability or, how well the predicted probabilities of an event match the observed outcome. The predicted outcome probabilities were obtained using the predict() function. Brier score performance was used to measure the accuracy of the predicted probabilities. This measure further helps to assess how well each model's predicted outcome aligns with the actual observed values.
+Models were evaluated using discrimination to assess the model's ability to differentiate between positive and negative outcomes. This evaluation included plotting the receiving operating characteristic curve (ROC), calculating the sensitivity, specificity, positive predicted values, negative predicted values and, overall accuracy for predicting tracheostomy placement. The sensitivity, specificity, positive predicted values, negative predicted values and, overall accuracy were calculated by using the threshold obtained from ROC curves from each model to create predicted classes for the response. The models were calibrated using predicted outcome probabilities to help assess reliability or, how well the predicted probabilities of an event match the observed outcome. The predicted outcome probabilities were obtained using the predict() function. Brier score performance was used to measure the accuracy of the predicted probabilities. This measure further helps to assess how well each model's predicted outcome aligns with the actual observed values.
+
+From Table 8: Regression Coeﬀiecient Comparison, we observe that the values for coeﬀicientsin logistic regression are generally larger than those in lasso and ridge regressions. This discrepancy arises because the regularization terms in lasso and ridge penalize large coeﬀicients.The AUC-ROC plots were used to visualize and determine the model's ability to discriminate differentiate between tracheostomy placement and no tracheostomy placement. A higher AUC score is associated with better discrimination. Here,the logistic model had the highest AUC score (0.933). In Table 9: Model Perfomance Meausre, we observe the sensitivitiy, specificity, PPV, NPV, and accuracy values for each model. From the calibration plots, the logistic and lasso models seem to have more points aligned the perfect calibration diagonal line compared to ridge however, the logistic appears to have a better model calibration. From Table 10: Brier Score Measures, we observed the logistic model achieved lowest Brier Score (0.065). The lower the Brier Score, the better the model's performance.12
 
 ```{r, warning=FALSE, message=FALSE, echo = FALSE}
 # data frame for regression coefficients
@@ -471,11 +483,7 @@ coeff_df <- data.frame(coefs_logistic = avg_coefs_logistic,
 
 # output table for regression coefficients
 kable(coeff_df, caption = "Regression Coefficient Comparisons", align = "l",digits = 3)
-```
 
-From Table 6: Regression Coeffiecient Comparison, we observe that the values for coefficients in logistic regression are generally larger than those in lasso and ridge regressions. This discrepancy arises because the regularization terms in lasso and ridge penalize large coefficients. From Figure : Model Performance, the AUC-ROC plot is used to visualize and determine the model's ability to discriminate differentiate between tracheostomy placement and no tracheostomy placement. A higher AUC score is associated with better discrimination. Here, the logistic model had the highest AUC score (0.933). From Figure , the logistic and lasso models seem to have more points aligned the perfect calibration diagonal line compared to ridge however, the logistic appears to have a better model calibration. From Table 8: Brier Score Measures, we observed the logistic model achieved lowest Brier Score (0.065). The lower the Brier Score, the better the model's performance.
-
-```{r, warning=FALSE, message=FALSE, echo = FALSE}
 # performance evaluation using discrimination, ROC Curve
 par(mfrow=c(1,3))
 
@@ -627,15 +635,13 @@ brier <- data.frame(Models = c("Logistic", "Lasso", "Ridge"),
 kable(brier, caption = "Brier Score Measures", align = "l",digits = 3)
 ```
 
-### Discussion
+## Conclusion
 
-The results of this regression analysis provide insights into the prediction of tracheostomy among infants diagnosed with severe bronchopulmonary dysplasia (BPD). Given the vulnerability of the patient population and the risk associated with a tracheostomy, it is important to develop a model that can accurately predict the potential need for invasive ventilation support. After fitting the logistic, lasso, and ridge models on the overall average regression coefficients from the imputed data sets, the logistic model appears to perform the best. We were able to assess the reliability and accuracy of these models using discrimination techniques and calibration methods. The current study has some limitations. In the data, there were very few observed outcomes for tracheostomy and death and we do not know when the tracheostomy was done. In addition, we did not focus on the death outcome in this study because it is uncertain that that cause of death is with complications from the tracheostomy for every infant. Significant missingness for predictors of interest was another limitation in the study. The multiple imputation method was used to impute missing variables. Some of the regression model functions included cross-validation and we did implement calibration on the predicted probabilities however, it is helpful to have a independent test set to evaluate the final model's performance on unseen data. In this study, we did not split the data into a training set and test set for validation. Furthermore, we did not conduct external validation on another data set to evaluate the generalizability of the model or the model's ability to be applied outside the clinical setting.
-
-### Conclusion
+The results of this regression analysis provide insights into the prediction of tracheostomy among infants diagnosed with severe bronchopulmonary dysplasia (BPD). Given the vulnerability of the patient population and the risk associated with a tracheostomy, it is important to develop a model that can accurately predict the potential need for invasive ventilation support. After fitting the logistic, lasso, and ridge models on the overall average regression coefficients from the imputed data sets, the logistic model appears to perform the best when predicting the observed outcome. We were able to assess the reliability and accuracy of these models using discrimination techniques and calibration methods. This study has some limitations. In the data set, there were very few observed outcomes for tracheostomy and death and we do not know when the tracheostomy was performed. In addition, we did not focus on the death outcome in this study because the cause of death is uncertain. Significant missingness for predictors of interest was another limitation in the study. The multiple imputation method was used to impute missing variables. Some of the regression model functions included cross-validation and we did implement calibration on the predicted probabilities however, it is helpful to have a independent test set to evaluate the final model's performance on unseen data before considering the model for clinical applications in a real-world setting. In this study, we did not split the data into a training set and test set for validation. However, this analysis can potentially be reproduced and improved for future studies by splitting the data and performing validation to assess how well the model performs on unseen data. Furthermore, external validation on another data set to evaluate the generalizability of the model or the model's ability to be applied outside the clinical setting could also be considered.
 
 \newpage
 
-#### References
+## References
 
 1.  Association, A. L. (n.d.). *Learn About Bronchopulmonary Dysplasia*. Www.lung.org. <https://www.lung.org/lung-health-diseases/lung-disease-lookup/bronchopulmonary-dysplasia/learn-about-bpd#:~:text=Key%20Facts>
 
@@ -649,7 +655,9 @@ The results of this regression analysis provide insights into the prediction of 
 
 6.  Baraldi, A. N., & Enders, C. K. (2010). An introduction to modern missing data analyses. Journal of School Psychology, 48(1), 5--37. https://doi.org/10.1016/j.jsp.2009.10.001
 
-7.  
+7.   Canvas
+
+8.  
 
 \newpage
 
