@@ -207,7 +207,7 @@ kable(miss2, caption = "Medical Center 2 Missing Variable Summary",
 
 In Figure 1 and Figure 2, we observe the distribution for the continous independent respiratory variables at 36 and 44 weeks. The distributions for most of these variable appear to be random where we observe no apparant pattern. The distribution for the variable for fraction of inspired oxygen at 36 weeks appears to be right-skewed or positively skewed. The distribution for the variable for the weight at 44 weeks appears to be normal with a bell-shape. In Figure 2, we observe the distribution for the continuous independent birth variables. The distributions for the birth weight, birth height, and gestational age appear to be right-skewed.
 
-```{r, warning=FALSE, message=FALSE, echo = FALSE, eval=FALSE, include=FALSE}
+```{r, warning=FALSE, message=FALSE, echo = FALSE, include=FALSE}
 # histograms for the independent respiratory support variables at 36 weeks
 newdata <- na.omit(trach_df) %>%
   dplyr::select(weight_today.36, inspired_oxygen.36, p_delta.36, peep_cm_h2o_modified.36,
@@ -352,7 +352,6 @@ x_vars <- model.matrix(Trach~ ., trach_df_long)[,-c(2,3)]
 trach_df_long$logistic_score <- x_vars %*% avg_coefs_logistic
 mod_logistic <- glm(Trach~logistic_score, data = trach_df_long, family = "binomial")
 predict_probs_logistic <- predict(mod_logistic, type="response")
-
 ```
 
 ```{r, warning=FALSE, message=FALSE, echo = FALSE}
