@@ -1,5 +1,5 @@
 ---
-title: "Project 2"
+title: "Predicting The Need For Trachestomy Placement In Infants: A Regression Analysis"
 author: "Destiny Rankins"
 format: pdf
 editor: visual
@@ -50,7 +50,7 @@ trach_df[,c(2:4, 9:15, 17, 21, 23, 27, 29)] <- lapply(trach_df[,c(2:4, 9:15, 17,
 
 -   **Methods:** This study utilizes data from the BPD Collaborative Registry, a multi-center consortium of interdisciplinary BPD programs located in the United States and Sweden formed to address gaps in evidence and promote research to enhance the care of children with severe forms of BPD. Standard demographic and clinical data are collected at four time points: birth, 36 weeks post-menstrual age (PMA), 44 weeks PMA and discharge information.
 
--   **Results:** A total of 996 patients were included in the final analysis of the data set. The best model was the logistic regression model. This model achieved a Brier Score of 0.065 and AUC O.933 (compared to Brier Score of 0.069 and AUC of 0.932 for the lasso model and Brier Score of 0.075 and AUC of 0.922 for the ridge model).
+-   **Results:** A total of 996 patients were included in the final analysis of the data set. The best model was the logistic regression model. The key variables. This model achieved a Brier Score of 0.065 and AUC O.933 (compared to Brier Score of 0.069 and AUC of 0.932 for the lasso model and Brier Score of 0.075 and AUC of 0.922 for the ridge model).
 
 -   **Conclusions:** The fitted regression models allow for predicting the potential need for a tracheostomy on infants given predictor variables. The findings are intended provide insight into a complex clinical decision-making process.
 
@@ -308,16 +308,11 @@ Three logistic regression models were developed from twenty-six chosen categoric
 ```{r, warning=FALSE, message=FALSE, echo = FALSE}
 # subset the data for imputation
 trach_subset <- trach_df %>% 
-  dplyr::select(c(center,bw,ga,blength,birth_hc,del_method,prenat_ster,
-                  com_prenat_ster,mat_chorio,gender,sga,any_surf,weight_today.36,
-                  ventilation_support_level.36,inspired_oxygen.36,p_delta.36,
-                  peep_cm_h2o_modified.36,med_ph.36,weight_today.44,
-                  ventilation_support_level_modified.44,inspired_oxygen.44,
-                  p_delta.44,peep_cm_h2o_modified.44,med_ph.44,hosp_dc_ga,Trach))
+dplyr::select(c(center,bw,ga,blength,birth_hc,del_method,prenat_ster,
+com_prenat_ster,mat_chorio,gender,sga,any_surf,weight_today.36,ventilation_support_level.36,inspired_oxygen.36,p_delta.36,peep_cm_h2o_modified.36,med_ph.36,weight_today.44, ventilation_support_level_modified.44,inspired_oxygen.44,p_delta.44,peep_cm_h2o_modified.44,med_ph.44,Trach))
 
 # impute the data set using the mice package
-#apply(trach_subset, 2, function(x){return(sum(!is.na(x))/length(x))})
-trach_df_mice_out<-mice(trach_subset,m=5,pri =FALSE,seed=10)
+trach_df_mice_out <- mice(trach_subset,m=5,pri =FALSE,seed=10)
 
 # Store each imputed data set
 trach_impdf<-vector("list",5)
